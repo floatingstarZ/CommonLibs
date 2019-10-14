@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.6.3 (E:\Anaconda3\python.exe)" project-jdk-type="Python SDK" />
+  <component name="SshConsoleOptionsProvider">
+    <option name="myEncoding" value="GBK" />
+    <option name="myConnectionType" value="DEPLOYMENT_SERVER" />
+    <option name="myConnectionId" value="307b3343-5d1c-4a7c-837b-164722590866" />
+  </component>
+</project>
