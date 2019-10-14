@@ -13,5 +13,16 @@ git remote add origin https://github.com/floatingstarZ/CommonLibs.git
 密码：第一个大写，之后的小写，常用密码
 git push -u origin master
 
+上传包：
+twine upload dist/*
+
+参考文件：
+https://www.cnblogs.com/yixianclove/p/7776792.html
+账号：
+Username
+alexzzz
+密码：常用，大写
+
+
 
 

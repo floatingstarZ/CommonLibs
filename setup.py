@@ -16,7 +16,7 @@ URL = 'https://github.com/floatingstarZ/CommonLibs'
 EMAIL = 'alexhzy@126.com'
 AUTHOR = 'alexhzy'
 REQUIRES_PYTHON = '>=3.6.0'
-VERSION = '0.0.1'
+VERSION = '1.0.0'
 
 # What packages are required for this module to be executed?
 REQUIRED = ['torch', 'opencv-python>=4.0.0', 'numpy', 'matplotlib']
