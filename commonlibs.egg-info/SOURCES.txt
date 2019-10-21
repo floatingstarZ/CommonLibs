@@ -14,11 +14,17 @@ commonlibs/common_tools/sl_tools.py
 commonlibs/drawing_tools/__init__.py
 commonlibs/drawing_tools/bbox_drawing_tools.py
 commonlibs/drawing_tools/draw_tools.py
+commonlibs/drawing_tools/to be done.py
+commonlibs/math_tools/IOU.py
+commonlibs/math_tools/NMS.py
 commonlibs/math_tools/NMS_utils.py
 commonlibs/math_tools/__init__.py
+commonlibs/math_tools/coco_match_bbox.py
 commonlibs/math_tools/fun_tools.py
 commonlibs/transform_tools/__init__.py
 commonlibs/transform_tools/bbox_transform.py
+commonlibs/transform_tools/code_transform.py
+commonlibs/transform_tools/data_transform.py
 commonlibs/transform_tools/feature_map_transform.py
 commonlibs/transform_tools/offset_tranoform.py
 commonlibs/transform_tools/type_transform.py

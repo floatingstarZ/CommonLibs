@@ -1,7 +1,7 @@
 打包成包
 python setup.py sdist bdist_wheel
 安装包
-pip install ./dist/mypackage-0.1.0-py3-none-any.whl
+pip install ./dist/commonlibs-1.0.0-py3-none-any.whl
 
 git的操作；
 git init
@@ -12,7 +12,6 @@ git remote add origin https://github.com/floatingstarZ/CommonLibs.git
 用户名：floatingstarZ
 密码：第一个大写，之后的小写，常用密码
 git push -u origin master
-
 上传包：
 twine upload dist/*
 
