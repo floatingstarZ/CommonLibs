@@ -81,8 +81,8 @@ def crowdhuman2coco(odgt_path, img_folder, json_path):  # 一个输入文件路�
 
 crowdhuman2coco('D:/DataBackup/CrowdHuman/annotation_val.odgt',
                 'D:/DataBackup/CrowdHuman/Images',
-                'D:/DataBackup/CrowdHuman/annotation_coco_val.json')
+                'D:/DataBackup/CrowdHuman/coco_val.json')
 
 crowdhuman2coco('D:/DataBackup/CrowdHuman/annotation_train.odgt',
                 'D:/DataBackup/CrowdHuman/Images',
-                'D:/DataBackup/CrowdHuman/annotation_coco_train.json')
+                'D:/DataBackup/CrowdHuman/coco_train.json')
