@@ -135,8 +135,12 @@ def fusion_img(org_img, heat, resize_shape=(0, 0)):
 def get_n_hls_colors(num):
     hls_colors = []
     i = 0
+    if num == 0:
+        return []
     step = 360.0 / num
     while i < 360:
+        if len(hls_colors) == num:
+            break
         h = i
         s = 90 + random.random() * 10
         l = 50 + random.random() * 10

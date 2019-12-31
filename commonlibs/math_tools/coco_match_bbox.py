@@ -22,10 +22,10 @@ def _match_DT_GT(dts, dt_scores, dt_labels,
     """
     # label == category
     # .._indices: index of .. in origin .. order
-    gt_indices = torch.arange(0, len(gt_labels))[gt_labels == cat_label]
+    gt_indices = torch.arange(0, len(gt_labels))[gt_labels == cat_label].long()
     gt = gts[gt_indices]
 
-    dt_indices = torch.arange(0, len(dt_labels))[dt_labels == cat_label]
+    dt_indices = torch.arange(0, len(dt_labels))[dt_labels == cat_label].long()
     dt = dts[dt_indices]
     scores = dt_scores[dt_indices]
 
@@ -34,12 +34,16 @@ def _match_DT_GT(dts, dt_scores, dt_labels,
     dt = dt[ids]
 
     # gtm: gt matched dts' id(in input order)
-    gtm = -gt_labels.new_ones(len(gt))
-    dtm = -gt_labels.new_ones(len(dt))
+    gtm = -gt_labels.new_ones(len(gt)).long()
+    dtm = -gt_labels.new_ones(len(dt)).long()
+
+    if len(gt) == 0 or len(dt) == 0:
+        e = gt.new_tensor([]).long()
+        return e, e, e, e, e, e, e
 
     ious = IOU(dt, gt)
     for dind, d in enumerate(dt):
-        iou = min([threshold, 1e-10])
+        iou = min([threshold, 1 - 1e-10])
         m = -1
         # match d with gts
         for gind, g in enumerate(gt):
@@ -55,19 +59,21 @@ def _match_DT_GT(dts, dt_scores, dt_labels,
         # if d doesn't matched any gts
         if m == -1:
             continue
-        # save matched ids(in input dt)
+        # save matched ids(in input order)
         gtm[m] = dt_indices[dind]
         dtm[dind] = gt_indices[m]
 
     matched_dt = dt[dtm > -1]
     matched_dt_score = scores[dtm > -1]
     matched_dt_ids = dt_indices[dtm > -1]
+    dtm = dtm[dtm > -1]
 
     matched_gt = gt[gtm > -1]
     matched_gt_ids = gt_indices[gtm > -1]
+    gtm = gtm[gtm>-1]
 
     return matched_dt, matched_dt_score, matched_dt_ids, \
-           matched_gt, matched_gt_ids
+           matched_gt, matched_gt_ids, dtm, gtm
 
 def match_dt_with_gt(dts, dt_scores, dt_labels,
                      gts, gt_labels,
@@ -83,20 +89,23 @@ def match_dt_with_gt(dts, dt_scores, dt_labels,
     :param cat_label_list: [int], possible category label list
     :param threshold: float, iou threshold
     :return: 
-    matched dt index: bool
+    gtmatched: matched dt idx in dt_labels order, int, -1 -> unmatched 
     matched gt index: bool
     """
-    gtm = gts.new_zeros(len(gt_labels))
-    dtm = dts.new_zeros(len(dt_labels))
+    gtmatched = -gts.new_ones(len(gt_labels)).long()
+    dtmatched = -gts.new_ones(len(dt_labels)).long()
+    if len(gt_labels) == 0 or len(gt_labels) == 0:
+        e = gt_labels.new_tensor([]).long()
+        return e, e
 
     for cat_label in cat_label_list:
         matched_dt, matched_dt_score, matched_dt_ids, \
-        matched_gt, matched_gt_ids = \
+        matched_gt, matched_gt_ids, dtm, gtm = \
             _match_DT_GT(dts, dt_scores, dt_labels,
                      gts, gt_labels, cat_label, threshold)
-        gtm[matched_gt_ids] = 1
-        dtm[matched_dt_ids] = 1
-    return gtm, dtm
+        gtmatched[matched_gt_ids] = gtm
+        dtmatched[matched_dt_ids] = dtm
+    return gtmatched, dtmatched
 
 if __name__ == '__main__':
     gts = torch.Tensor([[0, 0, 5, 5],

@@ -61,17 +61,17 @@ def draw_bbox_ltrd(img, bbox, rect_color, thickness=1, text='', font_size=0.5):
 
 
 def draw_bbox(img, bbox, rect_color):
-    (x, y, w, h) = bbox
-    (x1, y1) = (int(x), int(y))
-    (x2, y2) = (int(x + w), int(y + h))
+    (x1, y1, x2, y2) = bbox
+    (x1, y1) = (int(x1), int(y1))
+    (x2, y2) = (int(x2), int(y2))
     cv2.rectangle(img, (x1, y1), (x2, y2), rect_color, thickness=1)
 
 
 def draw_gt(img, bbox, cat, id_name_map, rect_color, text_color=(0, 200, 200),
             rect_thick=2, font_size=0.5):
-    (x, y, w, h) = bbox
-    (x1, y1) = (int(x), int(y))
-    (x2, y2) = (int(x + w), int(y + h))
+    (x1, y1, x2, y2) = bbox
+    (x1, y1) = (int(x1), int(y1))
+    (x2, y2) = (int(x2), int(y2))
     cv2.rectangle(img, (x1, y1), (x2, y2), rect_color, thickness=rect_thick)
     cv2.putText(img, id_name_map[str(cat)],
                 (x1, y1 - 5), cv2.FONT_HERSHEY_SIMPLEX, font_size, text_color, 2)
@@ -79,15 +79,35 @@ def draw_gt(img, bbox, cat, id_name_map, rect_color, text_color=(0, 200, 200),
 
 def draw_dt(img, bbox, cat, score, id_name_map, rect_color, text_color=(0, 200, 200),
             no_text=False):
-    (x, y, w, h) = bbox
-    (x1, y1) = (int(x), int(y))
-    (x2, y2) = (int(x + w), int(y + h))
+    (x1, y1, x2, y2) = bbox
+    (x1, y1) = (int(x1), int(y1))
+    (x2, y2) = (int(x2), int(y2))
     cv2.rectangle(img, (x1, y1), (x2, y2), rect_color, thickness=1)
     show_text = '%s%.3f' % (id_name_map[str(cat)], score)
     if not no_text:
         cv2.putText(img, show_text,
                     (x1, y1 - 5), cv2.FONT_HERSHEY_COMPLEX, 0.3, text_color,
                     thickness=1)
+
+def draw_bboxes(img, bbs, color, thickness=1, texts=None, font_size=0.5):
+    """
+
+    :param img: 
+    :param bbs: tensor
+    :param color: 
+    :param thickness: 
+    :param texts: 
+    :param font_size: 
+    :return: 
+    """
+    if texts:
+        for b, t in zip(bbs, texts):
+            b = b.numpy()
+            draw_bbox_ltrd(img, b, color, text=t, thickness=thickness, font_size=font_size)
+    else:
+        for b in bbs:
+            b = b.numpy()
+            draw_bbox_ltrd(img, b, color, thickness=thickness, font_size=font_size)
 
 
 # class BboxDrawer:

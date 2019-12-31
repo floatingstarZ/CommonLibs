@@ -2,9 +2,39 @@ import numpy as np
 import torch
 import inspect
 
+def all_to_list(data):
+    if isinstance(data, torch.Tensor):
+        return data.numpy().tolist()
+    elif isinstance(data, list):
+        return data
+    elif isinstance(data, np.ndarray):
+        return data.tolist()
+    elif isinstance(data, dict):
+        d = data.copy()
+        for k, v in d.items():
+            d[k] = all_to_numpy(v)
+        return d
+    else:
+        raise Exception('Data with type %s dose not support numpy transform' % (str(type(data))))
+
+
+
 def all_to_numpy(data):
-    pass
-    # if isinstance(data)
+    if isinstance(data, torch.Tensor):
+        return data.numpy()
+    elif isinstance(data, list):
+        return np.array(data)
+    elif isinstance(data, np.ndarray):
+        return data
+    elif isinstance(data, dict):
+        d = data.copy()
+        for k, v in d.items():
+            d[k] = all_to_numpy(v)
+        return d
+    else:
+        return data
+        # raise Exception('Data with type %s dose not support numpy transform' % (str(type(data))))
+
 
 def to_bbox_type(bboxes, dtype=torch.FloatTensor):
     """
